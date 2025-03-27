@@ -1,108 +1,104 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Los Susurros del Faro</title>
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      background-color: black;
-      font-family: monospace;
+      background: black;
       overflow: hidden;
+      font-family: 'Courier New', Courier, monospace;
+      color: #00ffff;
     }
 
     #background {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      object-fit: cover;
+      object-fit: contain;
       z-index: -1;
-    }
-
-    #soundToggle {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 10;
-    }
-
-    #soundIcon {
-      width: 32px;
-      height: 32px;
     }
 
     #startButton {
       position: absolute;
-      bottom: 60px;
+      bottom: 10%;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 24px;
+      font-size: 2em;
+      color: #00ffcc;
       background: transparent;
       border: none;
-      color: #00FFAA;
-      text-shadow: 1px 1px 2px black;
       cursor: pointer;
-      z-index: 10;
+      text-shadow: 2px 2px 4px #000;
     }
 
-    #startButton:hover {
-      color: #00ffaa;
-      text-shadow: 2px 2px 4px black;
+    #formContainer {
+      display: none;
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 2em;
+      border: 2px solid #00ffff;
+      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    input, select, button {
+      display: block;
+      margin: 1em auto;
+      padding: 0.5em;
+      font-size: 1em;
+      font-family: inherit;
+      border-radius: 5px;
+      border: 1px solid #00ffff;
+      background: black;
+      color: #00ffff;
     }
   </style>
 </head>
 <body>
   <img id="background" src="/key-visual.png" alt="Fondo">
+  <button id="startButton">PRESIONÁ START</button>
 
-  <button id="soundToggle">
-    <img id="soundIcon" src="https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg" alt="Sonido">
-  </button>
+  <div id="formContainer">
+    <h2>¿Quién sos en esta historia?</h2>
+    <label for="name">Tu nombre:</label>
+    <input type="text" id="name" name="name" required>
+    <label for="gender">Sexo:</label>
+    <select id="gender" name="gender">
+      <option value="masculino">Masculino</option>
+      <option value="femenino">Femenino</option>
+      <option value="otro">Otro</option>
+    </select>
+    <button onclick="startGame()">Comenzar Aventura</button>
+  </div>
 
   <audio id="bgm" src="/whispers-in-the-fog.mp3" loop></audio>
 
-  <button id="startButton">PRESIONÁ START</button>
-
   <script>
+    const startBtn = document.getElementById('startButton');
+    const form = document.getElementById('formContainer');
     const bgm = document.getElementById('bgm');
-    const soundIcon = document.getElementById('soundIcon');
-    const toggleBtn = document.getElementById('soundToggle');
-    let muted = false;
-    let started = false;
 
-    document.body.addEventListener('click', () => {
-      if (!started) {
-        bgm.volume = 0.5;
-        bgm.play();
-        started = true;
-      }
+    startBtn.addEventListener('click', () => {
+      bgm.volume = 0.5;
+      bgm.play();
+      startBtn.style.display = 'none';
+      form.style.display = 'block';
     });
 
-    toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      muted = !muted;
-      bgm.muted = muted;
-      soundIcon.src = muted
-        ? "https://icon-library.com/images/mute-icon-png/mute-icon-png-12.jpg"
-        : "https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg";
-    });
-
-    const startButton = document.getElementById('startButton');
-    startButton.addEventListener('click', () => {
-      window.location.href = "/form.html";
-    });
+    function startGame() {
+      const name = document.getElementById('name').value;
+      const gender = document.getElementById('gender').value;
+      alert(`¡Hola ${name}! Vamos a comenzar la aventura...`);
+    }
   </script>
 </body>
 </html>
