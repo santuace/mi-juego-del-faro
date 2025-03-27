@@ -2,85 +2,78 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Los Susurros del Faro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background-color: black;
       overflow: hidden;
+      background-color: black;
     }
-
-    .background {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    #background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url("key-visual.png");
+      background-size: cover;
+      background-position: center;
       z-index: -1;
     }
-
-    .start-button {
+    #start-button {
       position: absolute;
-      top: 75%;
+      bottom: 10%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 15px 40px;
-      font-size: 24px;
-      font-family: 'Press Start 2P', monospace;
-      color: #fff;
-      background-color: rgba(0,0,0,0.6);
-      border: 3px solid #fff;
-      border-radius: 8px;
+      transform: translateX(-50%);
+      padding: 1rem 2rem;
+      font-family: monospace;
+      font-size: 1.5rem;
+      background-color: transparent;
+      border: 2px solid white;
+      color: white;
       cursor: pointer;
     }
-
-    .music-toggle {
+    #music-toggle {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      background: transparent;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      color: white;
+      background: none;
       border: none;
       cursor: pointer;
-    }
-
-    .music-toggle img {
-      width: 30px;
     }
   </style>
 </head>
 <body>
-  <img src="portada-retro.png" alt="Portada del juego" class="background">
-  <button class="start-button" id="start-button">START</button>
-  <button class="music-toggle" id="toggle-music">
-    <img src="audio-on.png" alt="Toggle Música" id="music-icon">
-  </button>
-  <audio id="bg-music" src="whispers-in-the-fog.mp3" loop></audio>
+  <div id="background"></div>
+  <button id="start-button">START</button>
+  <button id="music-toggle">🔊</button>
+  <audio id="bg-music" loop>
+    <source src="whispers-in-the-fog.mp3" type="audio/mpeg" />
+  </audio>
 
   <script>
     const music = document.getElementById('bg-music');
-    const toggleBtn = document.getElementById('toggle-music');
-    const musicIcon = document.getElementById('music-icon');
-
+    const toggle = document.getElementById('music-toggle');
     let isPlaying = false;
 
-    document.getElementById('start-button').addEventListener('click', () => {
-      if (!isPlaying) {
-        music.volume = 0.5;
+    toggle.addEventListener('click', () => {
+      if (isPlaying) {
+        music.pause();
+        toggle.textContent = '🔇';
+      } else {
         music.play();
-        isPlaying = true;
+        toggle.textContent = '🔊';
       }
+      isPlaying = !isPlaying;
     });
 
-    toggleBtn.addEventListener('click', () => {
-      if (music.paused) {
-        music.play();
-        musicIcon.src = 'audio-on.png';
-      } else {
-        music.pause();
-        musicIcon.src = 'audio-off.png';
-      }
+    document.getElementById('start-button').addEventListener('click', () => {
+      alert("¡Empieza el juego!");
+      // Aquí se puede redirigir a otra pantalla o activar el motor del juego
     });
   </script>
 </body>
