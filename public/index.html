@@ -1,78 +1,75 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Los Susurros del Faro</title>
   <style>
-    body, html {
+    html, body {
       margin: 0;
       padding: 0;
+      background-color: black;
       height: 100%;
-      background: black;
-      overflow: hidden;
-      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     #background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: 0;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
 
     #soundToggle {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 16px;
+      right: 16px;
       background: none;
       border: none;
       cursor: pointer;
-      z-index: 2;
+      z-index: 10;
     }
 
     #soundIcon {
       width: 32px;
       height: 32px;
     }
-
-    audio {
-      display: none;
-    }
   </style>
 </head>
 <body>
-  <img id="background" src="/key-visual.png" alt="Fondo" />
+  <img id="background" src="/key-visual.png" alt="Fondo">
 
   <button id="soundToggle">
     <img id="soundIcon" src="https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg" alt="Sonido">
   </button>
 
-  <audio id="bgm" src="/whispers-in-the-fog.mp3" loop></audio>
+  <audio id="bgm" src="/whispers-in-the-fog.mp3" loop autoplay></audio>
 
   <script>
     const bgm = document.getElementById('bgm');
     const soundIcon = document.getElementById('soundIcon');
     const toggleBtn = document.getElementById('soundToggle');
     let muted = false;
-    let started = false;
-
-    document.body.addEventListener('click', () => {
-      if (!started) {
-        bgm.volume = 0.5;
-        bgm.play();
-        started = true;
-      }
-    });
 
     toggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       muted = !muted;
       bgm.muted = muted;
-      soundIcon.style.opacity = muted ? 0.3 : 1;
+      soundIcon.src = muted
+        ? 'https://icons.iconarchive.com/icons/iconsmind/outline/512/Mute-icon.png'
+        : 'https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg';
+    });
+
+    // Attempt to auto-play on load (some browsers may block it)
+    window.addEventListener('load', () => {
+      bgm.volume = 0.5;
+      const playPromise = bgm.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.log("Autoplay blocked, waiting for user interaction.");
+        });
+      }
     });
   </script>
 </body>
