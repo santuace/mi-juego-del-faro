@@ -8,66 +8,67 @@
       margin: 0;
       padding: 0;
       height: 100%;
+      background: black;
       overflow: hidden;
-      background-color: black;
     }
+
     #background {
       position: absolute;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
       object-fit: contain;
       z-index: -1;
     }
+
     #soundToggle {
       position: absolute;
       top: 20px;
       right: 20px;
-      background-color: transparent;
+      background: none;
       border: none;
       cursor: pointer;
-      width: 32px;
-      height: 32px;
       z-index: 10;
     }
+
     #soundToggle img {
-      width: 100%;
-      height: auto;
+      width: 32px;
+      height: 32px;
     }
   </style>
 </head>
 <body>
-  <img id="background" src="key-visual.png" alt="Pantalla de inicio">
+  <img id="background" src="/key-visual.png" alt="Fondo">
+
   <button id="soundToggle">
-    <img id="soundIcon" src="https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg" alt="Sound" />
+    <img id="soundIcon" src="https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg" alt="Sonido">
   </button>
-  <audio id="bgm" src="whispers-in-the-fog.mp3" loop></audio>
+
+  <audio id="bgm" src="/whispers-in-the-fog.mp3" loop></audio>
 
   <script>
-    const bgm = document.getElementById("bgm");
-    const soundToggle = document.getElementById("soundToggle");
-    const soundIcon = document.getElementById("soundIcon");
+    const bgm = document.getElementById('bgm');
+    const soundIcon = document.getElementById('soundIcon');
+    const toggleBtn = document.getElementById('soundToggle');
+    let muted = false;
+    let started = false;
 
-    let isMuted = false;
-    let hasStarted = false;
-
-    function playMusic() {
-      if (!hasStarted) {
-        bgm.volume = 0.4;
+    document.body.addEventListener('click', () => {
+      if (!started) {
+        bgm.volume = 0.5;
         bgm.play();
-        hasStarted = true;
+        started = true;
       }
-    }
+    });
 
-    soundToggle.addEventListener("click", (e) => {
+    toggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      isMuted = !isMuted;
-      bgm.muted = isMuted;
-      soundIcon.src = isMuted
+      muted = !muted;
+      bgm.muted = muted;
+      soundIcon.src = muted
         ? "https://static.thenounproject.com/png/108028-200.png"
         : "https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg";
     });
-
-    document.body.addEventListener("click", playMusic);
   </script>
 </body>
 </html>
