@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,7 +10,6 @@
       height: 100%;
       overflow: hidden;
       background-color: black;
-      font-family: 'Press Start 2P', cursive;
     }
     #background {
       position: absolute;
@@ -19,19 +17,6 @@
       height: 100%;
       object-fit: cover;
       z-index: -1;
-    }
-    #startButton {
-      position: absolute;
-      top: 70%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 10px 20px;
-      font-size: 14px;
-      color: white;
-      background-color: transparent;
-      border: 2px solid white;
-      border-radius: 5px;
-      cursor: pointer;
     }
     #soundToggle {
       position: absolute;
@@ -42,6 +27,7 @@
       cursor: pointer;
       width: 30px;
       height: 30px;
+      z-index: 10;
     }
     #soundToggle img {
       width: 100%;
@@ -51,15 +37,15 @@
 </head>
 <body>
   <img id="background" src="key-visual.png" alt="Fondo del juego">
-  <button id="startButton">START</button>
-  <button id="soundToggle"><img id="soundIcon" src="https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg" alt="Sound" /></button>
-  <audio id="bgm" src="public/whispers-in-the-fog.mp3" loop></audio>
+  <button id="soundToggle">
+    <img id="soundIcon" src="https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg" alt="Sound" />
+  </button>
+  <audio id="bgm" src="whispers-in-the-fog.mp3" loop></audio>
 
   <script>
     const bgm = document.getElementById("bgm");
     const soundToggle = document.getElementById("soundToggle");
     const soundIcon = document.getElementById("soundIcon");
-    const startButton = document.getElementById("startButton");
 
     let isMuted = false;
     let hasStarted = false;
@@ -81,13 +67,7 @@
         : "https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg";
     });
 
-    // Iniciar música con cualquier clic
     document.body.addEventListener("click", playMusic);
-
-    // START button puede redirigir a otra parte o lanzar acción futura
-    startButton.addEventListener("click", () => {
-      alert("¡Comienza el juego!");
-    });
   </script>
 </body>
 </html>
