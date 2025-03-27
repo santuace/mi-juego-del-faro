@@ -3,77 +3,90 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Los Susurros del Faro</title>
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
       overflow: hidden;
       background-color: black;
+      font-family: 'Press Start 2P', cursive;
     }
     #background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-image: url("key-visual.png");
-      background-size: cover;
-      background-position: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       z-index: -1;
     }
-    #start-button {
+    #startButton {
       position: absolute;
-      bottom: 10%;
+      top: 70%;
       left: 50%;
-      transform: translateX(-50%);
-      padding: 1rem 2rem;
-      font-family: monospace;
-      font-size: 1.5rem;
+      transform: translate(-50%, -50%);
+      padding: 10px 20px;
+      font-size: 14px;
+      color: white;
       background-color: transparent;
       border: 2px solid white;
-      color: white;
+      border-radius: 5px;
       cursor: pointer;
     }
-    #music-toggle {
+    #soundToggle {
       position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 1.5rem;
-      color: white;
-      background: none;
+      top: 20px;
+      right: 20px;
+      background-color: transparent;
       border: none;
       cursor: pointer;
+      width: 30px;
+      height: 30px;
+    }
+    #soundToggle img {
+      width: 100%;
+      height: auto;
     }
   </style>
 </head>
 <body>
-  <div id="background"></div>
-  <button id="start-button">START</button>
-  <button id="music-toggle">🔊</button>
-  <audio id="bg-music" loop>
-    <source src="whispers-in-the-fog.mp3" type="audio/mpeg" />
-  </audio>
+  <img id="background" src="key-visual.png" alt="Fondo del juego">
+  <button id="startButton">START</button>
+  <button id="soundToggle"><img id="soundIcon" src="https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg" alt="Sound" /></button>
+  <audio id="bgm" src="public/whispers-in-the-fog.mp3" loop></audio>
 
   <script>
-    const music = document.getElementById('bg-music');
-    const toggle = document.getElementById('music-toggle');
-    let isPlaying = false;
+    const bgm = document.getElementById("bgm");
+    const soundToggle = document.getElementById("soundToggle");
+    const soundIcon = document.getElementById("soundIcon");
+    const startButton = document.getElementById("startButton");
 
-    toggle.addEventListener('click', () => {
-      if (isPlaying) {
-        music.pause();
-        toggle.textContent = '🔇';
-      } else {
-        music.play();
-        toggle.textContent = '🔊';
+    let isMuted = false;
+    let hasStarted = false;
+
+    function playMusic() {
+      if (!hasStarted) {
+        bgm.volume = 0.4;
+        bgm.play();
+        hasStarted = true;
       }
-      isPlaying = !isPlaying;
+    }
+
+    soundToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      isMuted = !isMuted;
+      bgm.muted = isMuted;
+      soundIcon.src = isMuted
+        ? "https://static.thenounproject.com/png/108028-200.png"
+        : "https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg";
     });
 
-    document.getElementById('start-button').addEventListener('click', () => {
-      alert("¡Empieza el juego!");
-      // Aquí se puede redirigir a otra pantalla o activar el motor del juego
+    // Iniciar música con cualquier clic
+    document.body.addEventListener("click", playMusic);
+
+    // START button puede redirigir a otra parte o lanzar acción futura
+    startButton.addEventListener("click", () => {
+      alert("¡Comienza el juego!");
     });
   </script>
 </body>
