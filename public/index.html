@@ -2,16 +2,16 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Los Susurros del Faro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-      width: 100%;
+      background: black;
       overflow: hidden;
+      font-family: monospace;
     }
 
     #background {
@@ -21,17 +21,17 @@
       width: 100vw;
       height: 100vh;
       object-fit: cover;
-      z-index: -1;
+      z-index: 0;
     }
 
     #soundToggle {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 20px;
+      right: 20px;
       background: none;
       border: none;
       cursor: pointer;
-      z-index: 10;
+      z-index: 2;
     }
 
     #soundIcon {
@@ -39,30 +39,17 @@
       height: 32px;
     }
 
-    #startBtn {
-      position: absolute;
-      bottom: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 12px 24px;
-      font-size: 24px;
-      font-family: 'Press Start 2P', cursive;
-      background-color: black;
-      color: white;
-      border: 3px solid white;
-      cursor: pointer;
-      z-index: 10;
+    audio {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <img id="background" src="/key-visual.png" alt="Fondo">
+  <img id="background" src="/key-visual.png" alt="Fondo" />
 
   <button id="soundToggle">
     <img id="soundIcon" src="https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg" alt="Sonido">
   </button>
-
-  <button id="startBtn">START</button>
 
   <audio id="bgm" src="/whispers-in-the-fog.mp3" loop></audio>
 
@@ -70,23 +57,22 @@
     const bgm = document.getElementById('bgm');
     const soundIcon = document.getElementById('soundIcon');
     const toggleBtn = document.getElementById('soundToggle');
-    const startBtn = document.getElementById('startBtn');
-
     let muted = false;
+    let started = false;
 
-    startBtn.addEventListener('click', () => {
-      bgm.volume = 0.5;
-      bgm.play();
-      startBtn.style.display = 'none';
+    document.body.addEventListener('click', () => {
+      if (!started) {
+        bgm.volume = 0.5;
+        bgm.play();
+        started = true;
+      }
     });
 
     toggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       muted = !muted;
       bgm.muted = muted;
-      soundIcon.src = muted
-        ? 'https://icon-library.com/images/mute-icon-png/mute-icon-png-29.jpg'
-        : 'https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg';
+      soundIcon.style.opacity = muted ? 0.3 : 1;
     });
   </script>
 </body>
