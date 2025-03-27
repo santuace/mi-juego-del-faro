@@ -1,8 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Los Susurros del Faro</title>
   <style>
     * {
@@ -15,6 +15,7 @@
       width: 100%;
       height: 100%;
       background-color: black;
+      font-family: monospace;
       overflow: hidden;
     }
 
@@ -22,9 +23,9 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
       z-index: -1;
     }
 
@@ -35,6 +36,7 @@
       background: none;
       border: none;
       cursor: pointer;
+      z-index: 10;
     }
 
     #soundIcon {
@@ -42,18 +44,23 @@
       height: 32px;
     }
 
-    #startBtn {
+    #startButton {
       position: absolute;
-      bottom: 50px;
+      bottom: 60px;
       left: 50%;
       transform: translateX(-50%);
-      font-family: 'Courier New', monospace;
-      font-size: 1.5rem;
-      padding: 10px 20px;
-      border: 2px solid white;
-      background: black;
-      color: white;
+      font-size: 24px;
+      background: transparent;
+      border: none;
+      color: #00FFAA;
+      text-shadow: 1px 1px 2px black;
       cursor: pointer;
+      z-index: 10;
+    }
+
+    #startButton:hover {
+      color: #00ffaa;
+      text-shadow: 2px 2px 4px black;
     }
   </style>
 </head>
@@ -64,9 +71,9 @@
     <img id="soundIcon" src="https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg" alt="Sonido">
   </button>
 
-  <button id="startBtn">START</button>
-
   <audio id="bgm" src="/whispers-in-the-fog.mp3" loop></audio>
+
+  <button id="startButton">PRESIONÁ START</button>
 
   <script>
     const bgm = document.getElementById('bgm');
@@ -88,12 +95,13 @@
       muted = !muted;
       bgm.muted = muted;
       soundIcon.src = muted
-        ? "https://cdn-icons-png.flaticon.com/512/727/727240.png"
+        ? "https://icon-library.com/images/mute-icon-png/mute-icon-png-12.jpg"
         : "https://icon-library.com/images/sound-icon-png/sound-icon-png-9.jpg";
     });
 
-    document.getElementById('startBtn').addEventListener('click', () => {
-      window.location.href = 'form.html';
+    const startButton = document.getElementById('startButton');
+    startButton.addEventListener('click', () => {
+      window.location.href = "/form.html";
     });
   </script>
 </body>
